@@ -18,12 +18,14 @@ from collections import OrderedDict
 #   Word(0xdead)
 #   Packed: "\xef\xbe\xad\xde\xce\xfa\xad\xde"
 #   List of values above: [0xdeadbeef, "sc\x00\x00", "test", Word(0x1337)]
+def to_str(bytes_data):
+    return "".join(map(chr, bytes_data))
 def pack32(n):
-    return struct.pack("<I", n)
+    return to_str(struct.pack("<I", n))
 
 
 def pack64(n):
-    return struct.pack("<Q", n)
+    return to_str(struct.pack("<Q", n))
 
 
 def unpack32(s):
@@ -61,14 +63,13 @@ class FormatStr:
             list: self._set_list,
             str: self._set_str,
             int: self._set_dword,
-            long: self._set_dword,
             Word: self._set_word,
             Byte: self._set_byte
         }
 
     def __setitem__(self, addr, value):
         addr_type = type(addr)
-        if addr_type in (int, long):
+        if addr_type is int:
             if self.isx64:
                 addr = addr % (1 << 64)
             else:
@@ -101,12 +102,12 @@ class FormatStr:
         return addr + len(s)
 
     def _set_dword(self, addr, value):
-        for i in xrange(4):
+        for i in range(4):
             self.mem[addr + i] = (int(value) >> (i * 8)) % (1 << 8)
         return addr + 4
 
     def _set_word(self, addr, value):
-        for i in xrange(2):
+        for i in range(2):
             self.mem[addr + i] = (int(value) >> (i * 8)) % (1 << 8)
         return addr + 2
 
@@ -276,7 +277,7 @@ class Byte:
 
 
 def warning(s):
-    print >> sys.stderr, "WARNING:", s
+    print("WARNING:", s, file=sys.stderr)
 
 
 def tuples_sorted_by_values(adict):

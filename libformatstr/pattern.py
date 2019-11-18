@@ -42,4 +42,4 @@ if __name__ == "__main__":
 	if len(sys.argv) > 1:
 		sys.stdout.write( make_pattern(*map(int, sys.argv[1:])) )
 	else:
-		print "Usage: pattern buffer_size [start_index=1 [max_index=500]]"
+		print("Usage: pattern buffer_size [start_index=1 [max_index=500]]")

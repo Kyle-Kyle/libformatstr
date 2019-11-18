@@ -28,9 +28,9 @@ if __name__ == "__main__":
         lst = [sys.argv[1]] + map(int, sys.argv[2:])
         t = guess_argnum(*lst)
         if t:
-            print "argnum:", t[0]
-            print "padding:", t[1]
+            print("argnum:", t[0])
+            print("padding:", t[1])
         else:
-            print "Can't determing argnum!"
+            print("Can't determing argnum!")
     else:
-        print "Usage: guess result_str buffer_size [start_index=1]"
+        print("Usage: guess result_str buffer_size [start_index=1]")
